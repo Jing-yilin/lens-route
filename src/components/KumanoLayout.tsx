@@ -3,6 +3,7 @@
 import React, { useState } from 'react';
 import { Photo, PhotoPost } from '@/types/photo';
 import DynamicMap from './DynamicMap';
+import RoutePathSvg from './RoutePathSvg';
 import Image from 'next/image';
 
 interface KumanoLayoutProps {
@@ -37,6 +38,12 @@ export default function KumanoLayout({ post }: KumanoLayoutProps): React.ReactEl
             <div className="prose max-w-none mb-12">
               <div dangerouslySetInnerHTML={{ __html: post.content || '' }} />
             </div>
+            
+            {/* 添加SVG路线图 */}
+            <RoutePathSvg 
+              photos={post.photos} 
+              activePhotoIndex={activePhotoIndex} 
+            />
             
             <div className="space-y-16">
               {post.photos.map((photo, index) => (

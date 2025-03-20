@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect } from 'react';
-import { MapContainer, TileLayer, Marker, Popup, useMap } from 'react-leaflet';
+import { MapContainer, TileLayer, Marker, Popup, Polyline, useMap } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
 import { Photo } from '@/types/photo';
 import React from 'react';
@@ -22,6 +22,14 @@ const activeMarkerIcon = new L.Icon({
   iconAnchor: [10, 10],
   popupAnchor: [0, -10],
 });
+
+// 路线样式选项
+const pathOptions = { 
+  color: '#d80000', 
+  weight: 3, 
+  opacity: 0.7,
+  dashArray: '5, 8' // 虚线样式
+};
 
 interface MapViewControlProps {
   center: [number, number];
@@ -57,6 +65,14 @@ export default function PhotoMap({ photos, activePhotoIndex, setActivePhotoIndex
     ? [activePhoto.location.coordinates[1], activePhoto.location.coordinates[0]] 
     : defaultCenter;
   
+  // 提取所有照片的坐标用于路线
+  const pathPositions = photos
+    .filter(photo => photo.location?.coordinates)
+    .map(photo => [
+      photo.location!.coordinates![1], 
+      photo.location!.coordinates![0]
+    ] as [number, number]);
+  
   return (
     <MapContainer 
       center={defaultCenter} 
@@ -76,6 +92,11 @@ export default function PhotoMap({ photos, activePhotoIndex, setActivePhotoIndex
         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
         attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
       />
+      
+      {/* 添加路线连线 */}
+      {pathPositions.length > 1 && (
+        <Polyline positions={pathPositions} pathOptions={pathOptions} />
+      )}
       
       {photos.map((photo, index) => {
         if (!photo.location?.coordinates) return null;
