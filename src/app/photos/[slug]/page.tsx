@@ -3,9 +3,11 @@ export const dynamic = 'force-static';
 import { getPhotoPostBySlug, getAllPhotoPosts } from '@/lib/mdx';
 import KumanoLayout from '@/components/KumanoLayout';
 
-// 简化页面组件定义，让TypeScript检查通过
-export default function PhotoDetail({ params }) {
-  const post = getPhotoPostBySlug(params.slug);
+// 修改为异步函数以正确处理params
+export default async function PhotoDetail({ params }: { params: { slug: string } }) {
+  // 确保params是已解析的对象
+  const slug = params.slug;
+  const post = getPhotoPostBySlug(slug);
   
   if (!post) {
     return (

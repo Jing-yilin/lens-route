@@ -59,7 +59,7 @@ export default function KumanoLayout({ post }: KumanoLayoutProps): React.ReactEl
   }, [activePhotoIndex]);
   
   return (
-    <div className="flex flex-col lg:flex-row min-h-screen bg-white relative">
+    <div className="flex flex-col lg:flex-row min-h-screen bg-white">
       {/* 左侧内容区 - 移动设备时在上方 */}
       <div className="w-full lg:w-1/2 p-4 pb-16 lg:overflow-y-auto lg:h-screen">
         {/* 页面标题 */}
@@ -120,8 +120,8 @@ export default function KumanoLayout({ post }: KumanoLayoutProps): React.ReactEl
         </div>
       </div>
       
-      {/* 右侧固定地图 - 移动设备时在底部 */}
-      <div className="w-full lg:w-1/2 h-[50vh] lg:h-screen fixed lg:sticky bottom-0 lg:top-0 right-0">
+      {/* 右侧固定地图 */}
+      <div className="w-full lg:w-1/2 h-[50vh] lg:h-screen sticky top-0 right-0 map-container">
         <DynamicMap 
           photos={post.photos} 
           activePhotoIndex={activePhotoIndex} 
