@@ -2,7 +2,7 @@
 
 import React, { useState } from 'react';
 import { Photo, PhotoPost } from '@/types/photo';
-import PhotoMap from './PhotoMap';
+import DynamicMap from './DynamicMap';
 import Image from 'next/image';
 
 interface KumanoLayoutProps {
@@ -74,7 +74,7 @@ export default function KumanoLayout({ post }: KumanoLayoutProps): React.ReactEl
           {/* 右侧固定地图 */}
           <div className="hidden lg:block lg:w-5/12 relative">
             <div className="sticky top-8 h-[calc(100vh-4rem)]">
-              <PhotoMap 
+              <DynamicMap 
                 photos={post.photos} 
                 activePhotoIndex={activePhotoIndex} 
                 setActivePhotoIndex={setActivePhotoIndex} 
