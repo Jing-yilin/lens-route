@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import Image from 'next/image';
 import { getAllPhotoPosts } from '@/lib/mdx';
+import { getAssetPath } from '@/lib/utils';
 
 export default async function Home() {
   // 使用server component异步获取数据
@@ -24,7 +25,7 @@ export default async function Home() {
                   {post.coverImage ? (
                     <Image
                       src={post.coverImage.startsWith('./') 
-                        ? `/images/${post.slug}/${post.coverImage.substring(2)}`
+                        ? getAssetPath(`/images/${post.slug}/${post.coverImage.substring(2)}`)
                         : post.coverImage}
                       alt={post.title}
                       fill

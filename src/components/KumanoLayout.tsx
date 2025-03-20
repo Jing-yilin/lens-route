@@ -5,6 +5,7 @@ import { Photo, PhotoPost } from '@/types/photo';
 import DynamicMap from './DynamicMap';
 import RoutePathSvg from './RoutePathSvg';
 import Image from 'next/image';
+import { getAssetPath } from '@/lib/utils';
 
 interface KumanoLayoutProps {
   post: PhotoPost;
@@ -96,7 +97,7 @@ export default function KumanoLayout({ post }: KumanoLayoutProps): React.ReactEl
             >
               <div className="relative w-full aspect-[4/3] bg-gray-100 overflow-hidden">
                 <Image
-                  src={`/images/${post.slug}/${photo.file}`}
+                  src={getAssetPath(`/images/${post.slug}/${photo.file}`)}
                   alt={photo.title || ''}
                   className="object-cover transition-all duration-700 ease-in-out"
                   fill
