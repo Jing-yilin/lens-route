@@ -88,7 +88,9 @@ export default function KumanoLayout({ post }: KumanoLayoutProps): React.ReactEl
           {post.photos.map((photo, index) => (
             <div 
               key={index}
-              ref={(el) => (photoRefs.current[index] = el)}
+              ref={(el) => {
+                photoRefs.current[index] = el;
+              }}
               className="photo-item scroll-mt-8"
               onMouseEnter={() => setActivePhotoIndex(index)}
             >
