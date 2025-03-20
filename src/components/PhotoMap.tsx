@@ -4,17 +4,22 @@ import { useEffect } from 'react';
 import { MapContainer, TileLayer, Marker, Popup, useMap } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
 import { Photo } from '@/types/photo';
+import React from 'react';
+// 不使用未使用的类型导入
+// import type L from 'leaflet';
 
 // 解决Leaflet图标问题
-function FixLeafletIcons(): JSX.Element | null {
+function FixLeafletIcons(): React.ReactElement | null {
   useEffect(() => {
     // 只在客户端执行
-    const L = require('leaflet');
-    delete L.Icon.Default.prototype._getIconUrl;
-    L.Icon.Default.mergeOptions({
-      iconRetinaUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-icon-2x.png',
-      iconUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-icon.png',
-      shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-shadow.png',
+    import('leaflet').then(L => {
+      // @ts-expect-error: Leaflet内部属性，类型定义中不存在
+      delete L.Icon.Default.prototype._getIconUrl;
+      L.Icon.Default.mergeOptions({
+        iconRetinaUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-icon-2x.png',
+        iconUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-icon.png',
+        shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-shadow.png',
+      });
     });
   }, []);
   
@@ -27,7 +32,7 @@ interface MapViewControlProps {
 }
 
 // 地图视图控制组件
-function MapViewControl({ center, zoom }: MapViewControlProps): JSX.Element | null {
+function MapViewControl({ center, zoom }: MapViewControlProps): React.ReactElement | null {
   const map = useMap();
   
   useEffect(() => {
@@ -43,7 +48,7 @@ interface PhotoMapProps {
   setActivePhotoIndex: (index: number) => void;
 }
 
-export default function PhotoMap({ photos, activePhotoIndex, setActivePhotoIndex }: PhotoMapProps): JSX.Element {
+export default function PhotoMap({ photos, activePhotoIndex, setActivePhotoIndex }: PhotoMapProps): React.ReactElement {
   // 获取主要位置作为默认中心
   const defaultCenter: [number, number] = photos.length > 0 && photos[0].location 
     ? [photos[0].location.lat, photos[0].location.lng] 
