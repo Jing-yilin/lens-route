@@ -6,6 +6,7 @@
     "dev": "next dev --turbopack",
     "build": "next build",
     "build:gh-pages": "cross-env NODE_ENV=production NEXT_PUBLIC_BASE_PATH=/lens-route next build --no-lint",
+    "deploy": "npm run build:gh-pages && touch out/.nojekyll && git add -f out/ && git commit -m \"Deploy to gh-pages\" && git subtree push --prefix out origin gh-pages",
     "start": "next start",
     "lint": "next lint"
   },
