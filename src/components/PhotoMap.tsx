@@ -41,7 +41,10 @@ function MapViewControl({ center, zoom }: MapViewControlProps): React.ReactEleme
   const map = useMap();
   
   useEffect(() => {
-    map.flyTo(center, zoom);
+    map.flyTo(center, zoom, {
+      duration: 1.5, // 动画持续时间（秒）
+      easeLinearity: 0.25
+    });
   }, [center, map, zoom]);
   
   return null;
@@ -57,7 +60,7 @@ export default function PhotoMap({ photos, activePhotoIndex, setActivePhotoIndex
   // 获取主要位置作为默认中心
   const defaultCenter: [number, number] = photos.length > 0 && photos[0].location?.coordinates 
     ? [photos[0].location.coordinates[1], photos[0].location.coordinates[0]] 
-    : [35, 135]; // 日本中心位置
+    : [34.1, 135.8]; // 和歌山县附近
   
   // 如果有活跃照片，获取其位置
   const activePhoto = activePhotoIndex !== null && photos[activePhotoIndex] ? photos[activePhotoIndex] : null;
@@ -76,21 +79,24 @@ export default function PhotoMap({ photos, activePhotoIndex, setActivePhotoIndex
   return (
     <MapContainer 
       center={defaultCenter} 
-      zoom={8} 
+      zoom={11} 
       style={{ 
         height: '100%', 
         width: '100%', 
-        borderRadius: '0px',
-        background: 'rgba(242, 242, 242, 0.8)',
-        filter: 'grayscale(0.2) contrast(0.9)'
+        background: '#f7f7f7',
+        filter: 'grayscale(0.9) contrast(0.8)'
       }}
       zoomControl={false}
+      attributionControl={false}
+      scrollWheelZoom={true}
+      className="z-10"
     >
-      <MapViewControl center={activeCenter} zoom={11} />
+      <MapViewControl center={activeCenter} zoom={13} />
       
       <TileLayer
-        url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+        url="https://tile.openstreetmap.org/{z}/{x}/{y}.png"
         attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+        className="map-tiles"
       />
       
       {/* 添加路线连线 */}
@@ -101,19 +107,23 @@ export default function PhotoMap({ photos, activePhotoIndex, setActivePhotoIndex
       {photos.map((photo, index) => {
         if (!photo.location?.coordinates) return null;
         
+        const isActive = index === activePhotoIndex;
+        
         return (
           <Marker 
             key={index}
             position={[photo.location.coordinates[1], photo.location.coordinates[0]]}
-            icon={index === activePhotoIndex ? activeMarkerIcon : redMarkerIcon}
+            icon={isActive ? activeMarkerIcon : redMarkerIcon}
             eventHandlers={{
               click: () => setActivePhotoIndex(index),
             }}
           >
-            <Popup className="minimal-popup">
-              <div className="text-sm">
+            <Popup className="photo-popup">
+              <div className="text-sm p-1">
                 <h3 className="font-medium text-gray-900">{photo.title || `照片 ${index + 1}`}</h3>
-                {photo.location.name && <p className="text-gray-600">{photo.location.name}</p>}
+                {photo.location.name && (
+                  <p className="text-gray-600 text-xs">{photo.location.name}</p>
+                )}
               </div>
             </Popup>
           </Marker>
