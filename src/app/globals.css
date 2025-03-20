@@ -14,7 +14,8 @@
 body {
   font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
-  @apply text-gray-900 bg-white;
+  color: rgb(17 24 39);
+  background-color: white;
 }
 
 /* 照片浏览效果 */
@@ -51,21 +52,27 @@ body {
 
 /* MDX内容样式 */
 .prose {
-  @apply text-gray-800 text-lg leading-relaxed;
+  color: rgb(31 41 55);
+  font-size: 1.125rem;
+  line-height: 1.75;
 }
 
 .prose h1, .prose h2, .prose h3 {
-  @apply font-light tracking-tight mt-8 mb-4;
+  font-weight: 300;
+  letter-spacing: -0.025em;
+  margin-top: 2rem;
+  margin-bottom: 1rem;
 }
 
 .prose h1 {
-  @apply text-3xl;
+  font-size: 1.875rem;
 }
 
 .prose h2 {
-  @apply text-2xl;
+  font-size: 1.5rem;
 }
 
 .prose p {
-  @apply my-6;
+  margin-top: 1.5rem;
+  margin-bottom: 1.5rem;
 }

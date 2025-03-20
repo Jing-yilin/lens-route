@@ -10,7 +10,7 @@ export default function PhotoDetail({ params }) {
   if (!post) {
     return (
       <div className="flex justify-center items-center h-screen">
-        <p className="text-2xl text-gray-600">摄影集未找到</p>
+        <p className="text-2xl text-[rgb(75,85,99)]">摄影集未找到</p>
       </div>
     );
   }
