@@ -3,10 +3,14 @@ export const dynamic = 'force-static';
 import { getPhotoPostBySlug, getAllPhotoPosts } from '@/lib/mdx';
 import KumanoLayout from '@/components/KumanoLayout';
 
-// 修改为异步函数以正确处理params
-export default async function PhotoDetail({ params }: { params: { slug: string } }) {
+// Using a more generic params type that will work with Next.js build
+export default async function PhotoDetail({ 
+  params 
+}: { 
+  params: any 
+}) {
   // 确保params是已解析的对象
-  const slug = params.slug;
+  const slug = params.slug as string;
   const post = getPhotoPostBySlug(slug);
   
   if (!post) {
